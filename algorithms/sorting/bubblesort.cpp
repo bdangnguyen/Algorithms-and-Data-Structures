@@ -38,7 +38,8 @@ int main() {
     std::cout << "Enter the size of the array you wish to bubble sort: ";
     std::cin >> n;
 
-    int arr[n];
+    // Dynamic allocation to avoid complaints at compile time.
+    int* arr = new int[n];
 
     std::cout << "Type either 1 or 0 for the sort\n";
     std::cout << "0. An " << n << " length array with random elements\n";
@@ -50,39 +51,13 @@ int main() {
             int randNum = rand();
             arr[i] = randNum;
         }
-
-        std::cout << "\nPrinting the first 100 elements...\n";
-
-        int count = 0;
-        while (count < 100 && count < n) {
-            std::cout << arr[count] << " ";
-            count++;
-        }
-
-        auto start = std::chrono::system_clock::now();
-        bubbleSort(arr, n);
-        auto end = std::chrono::system_clock::now();
-        elapsed = end - start;
     } else {
         for (int i = 0; i < n; i++) {
             arr[i] = n - i;
         }
-
-        std::cout << "\nPrinting the first 100 elements...\n";
-
-        int count = 0;
-        while (count < 100 && count < n) {
-            std::cout << arr[count] << " ";
-            count++;
-        }
-
-        auto start = std::chrono::system_clock::now();
-        bubbleSort(arr, n);
-        auto end = std::chrono::system_clock::now();
-        elapsed = end - start;
     }
 
-    std::cout << "\nPrinting the sorted first 100 elements...\n";
+    std::cout << "\nPrinting the first 100 elements...\n";
 
     int count = 0;
     while (count < 100 && count < n) {
@@ -90,7 +65,21 @@ int main() {
         count++;
     }
 
+    auto start = std::chrono::system_clock::now();
+    bubbleSort(arr, n);
+    auto end = std::chrono::system_clock::now();
+    elapsed = end - start;
+
+    std::cout << "\nPrinting the sorted first 100 elements...\n";
+
+    count = 0;
+    while (count < 100 && count < n) {
+        std::cout << arr[count] << " ";
+        count++;
+    }
+
     std::cout << "\nTime it took to sort: " << elapsed.count() << "s";
 
+    delete[] arr;
     return 0;
 }
