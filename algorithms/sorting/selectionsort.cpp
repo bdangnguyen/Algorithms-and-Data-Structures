@@ -2,54 +2,55 @@
 #include <chrono>
 #include <vector>
 
-// An implementation of bubble sort in C++ using vectors.
-// Time Complexity: O(n^2) worst case, O(n) best case
-// Space Comlpexity: O(1)
+// An implementation of Selection Sort in C++ using vectors.
+// Time Complexity: O(n^2) worst case, O(n^2) best case
+// Space Complexity: O(1)
 //
 // In the worst case, the first for loop takes n iterations, with the second
 // loop taking n-1, n-2, ..., 1 iterations. This only occurs when the list is
 // reversed. Using the Arithmetic series gives O(n^2).
-// In the best case, we simply loop over the entire vector once and verify
-// that we have not swapped anything.
+// No matter what our vector looks like, we'll always do the same amount of
+// comparisons. This gives O(n^2) for the best case, and gives us Theta(n^2).
 // We sort in place, giving O(1) space complexity.
-void bubbleSort(std::vector<int> &arr) {
-    for (int i = 0; i < arr.size() - 1; i++) {
-        bool sortFlag = false;
+void selectionSort(std::vector<int> &arr) {
+    for (int i = 0; i < arr.size(); i++) {
+        // Assume that the minimum is the first element of the unsorted array.
+        int min = i;
 
-        // Run through the vector. The largest value "bubbles" up the vector.
-        for (int j = 0; j < arr.size() - i - 1; j++) {
-            if (arr[j] > arr[j + 1]) {
-                int temp = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j+1] = temp;
-
-                sortFlag = true;
+        // Run through the unsorted array, if we find a new min, take it.
+        for (int j = i + 1; j < arr.size(); j++) {
+            if (arr[j] < arr[min]) {
+                min = j;
             }
         }
-        
-        // If we run through and the vector is sorted no more work is needed.
-        if (sortFlag == false) {
-            return;
+
+        // If we found a new min, add it to the end of the sorted array.
+        if (min != i) {
+            int temp = arr[i];
+            arr[i] = arr[min];
+            arr[min] = temp;
         }
     }
+
+    return;
 }
 
-int main() {
+int main(int argc, char* argv[]) {
     typedef std::chrono::duration<float> float_time;
     float_time elapsed;
 
     int n;
     bool choice = 0;
 
-    std::cout << "Enter the size of the array you wish to bubble sort: ";
+    std::cout << "Enter the size of the array you wish to selection sort: ";
     std::cin >> n;
+
+    std::vector<int> arr;
 
     if (n <= 0) {
         std::cout << "Enter a valid integer";
         return 1;
     }
-
-    std::vector<int> arr;
 
     std::cout << "Type either 1 or 0 for the sort\n";
     std::cout << "0. An " << n << " length array with random elements\n";
@@ -58,12 +59,11 @@ int main() {
 
     if (choice == 0) {
         for (int i = 0; i < n; i++) {
-            int randNum = rand();
-            arr.push_back(randNum);
+            arr.push_back(rand());
         }
     } else {
         for (int i = 0; i < n; i++) {
-            arr.push_back(n - i);
+            arr.push_back(n-i);
         }
     }
 
@@ -76,7 +76,7 @@ int main() {
     }
 
     auto start = std::chrono::system_clock::now();
-    bubbleSort(arr);
+    selectionSort(arr);
     auto end = std::chrono::system_clock::now();
     elapsed = end - start;
 
