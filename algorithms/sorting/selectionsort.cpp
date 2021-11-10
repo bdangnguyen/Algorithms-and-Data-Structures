@@ -7,8 +7,7 @@
 // Space Complexity: O(1)
 //
 // In the worst case, the first for loop takes n iterations, with the second
-// loop taking n-1, n-2, ..., 1 iterations. This only occurs when the list is
-// reversed. Using the Arithmetic series gives O(n^2).
+// loop taking n-1, n-2, ..., 1 iterations. Arithmetic series gives O(n^2).
 // No matter what our vector looks like, we'll always do the same amount of
 // comparisons. This gives O(n^2) for the best case, and gives us Theta(n^2).
 // We sort in place, giving O(1) space complexity.
